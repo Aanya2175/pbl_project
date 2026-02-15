@@ -1,5 +1,5 @@
-streamlit 
-opencv-python 
-mediapipe 
-pygame 
-numpy 
+streamlit
+opencv-python-headless
+mediapipe==0.10.11
+pygame
+numpy
