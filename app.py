@@ -1,6 +1,5 @@
 import cv2
 import streamlit as st
-import winsound
 import time
 import pygame
 import pandas as pd
@@ -12,12 +11,15 @@ st.title("Real-Time Posture & Fatigue Monitor")
 run = st.checkbox("Start Webcam")
 
 frame_window = st.image([])
-dashboard = st.empty()   # 👈 single dashboard container
+dashboard = st.empty()   #single dashboard container
 
 tracker = FatigueTracker()
 pygame.mixer.init()
+beep_sound = pygame.mixer.Sound("assets/beep.wav")
+beep_channel = pygame.mixer.Channel(1)
+beep_channel.stop()
 break_sound = pygame.mixer.Sound("assets/break.wav")
-break_channel = pygame.mixer.Channel(1)
+break_channel = pygame.mixer.Channel(2)
 break_channel.stop()
 
 last_posture_beep = 0
@@ -101,7 +103,7 @@ while run:
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 3)
 
         if current_time - last_posture_beep > cooldown:
-            winsound.Beep(1000, 250)
+            beep_channel.play(beep_sound)
             last_posture_beep = current_time
             alert_count += 1
 
